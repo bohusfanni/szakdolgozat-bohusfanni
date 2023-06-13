@@ -1,7 +1,7 @@
-import { View, Text, TextInput, Button, StyleSheet} from 'react-native'
+import { View, TextInput, StyleSheet} from 'react-native'
 import React from 'react'
 
-const CustomInput = ({value, setValue, placeholder, secureTextEntry}) => {
+const SignInInput = ({value, setValue, placeholder, secureTextEntry}) => {
   return (
     <View style={styles.container}>
       <TextInput 
@@ -33,4 +33,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default CustomInput;
+export default SignInInput;

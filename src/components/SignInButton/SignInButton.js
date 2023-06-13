@@ -1,12 +1,13 @@
-import { View, Button, StyleSheet } from 'react-native'
+import {Button, StyleSheet, View} from 'react-native'
 import React from 'react'
 
-const CustomButton = ({title}) => {
+const SignInButton = ({title, onPress}) => {
   return (
     <View style={style.container}> 
       <Button 
         style={style.text}
         title={title}
+        onPress={onPress}
       />
     </View>
   )
@@ -14,9 +15,10 @@ const CustomButton = ({title}) => {
 
 const style = StyleSheet.create({
     container: {
-        marginVertical: 10
+        marginVertical: 10,
+        borderRadius: 5
     },
     text: {}
 })
 
-export default CustomButton
+export default SignInButton
