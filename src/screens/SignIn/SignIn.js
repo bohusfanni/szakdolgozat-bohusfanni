@@ -1,20 +1,38 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Text, View, Image, StyleSheet, useWindowDimensions } from 'react-native';
 import Logo from '../../../assets/images/logo.jpg';
-import CustomInput from '../../components/CustomInput';
+import CustomInput from '../../components/SignInInput';
+import CustomButton from '../../components/SignInButton';
 
 const SignIn = () =>  {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
     const {height} = useWindowDimensions();
     
     return (
-        <View style={styles.root}>
+        <View style={style.root}>
             <Image
                 source={Logo} 
-                style={[styles.logo, {height: height * 0.3}]} 
+                style={[style.logo, {height: height * 0.3}]} 
                 resizeMode="contain"
             />
 
-            <CustomInput/>
+            <CustomInput 
+                placeholder="Felhasználónév" 
+                value={username} 
+                setValue={setUsername}
+            />
+            <CustomInput
+                placeholder="Jelszó" 
+                value={password} 
+                setValue={setPassword}
+                secureTextEntry
+            />
+            <CustomButton
+                title="Bejelentkezés"
+
+            />
         </View>
     );
 };
@@ -22,10 +40,10 @@ const SignIn = () =>  {
 const style = StyleSheet.create({
     root: {
         alignItems: 'center',
-        padding: 20,
+        padding: 50,
     },
     logo: {
-        width: 100,
+        width: "70%",
         maxWidth: 300,
         maxHeight: 200,
     },
