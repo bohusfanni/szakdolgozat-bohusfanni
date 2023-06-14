@@ -2,6 +2,7 @@ import * as React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Icon from 'react-native-ico-material-design';
 import SignIn from './src/screens/SignIn';
+import SignUp from './src/screens/SignUp';
 
 export default class App extends React.Component{
   
@@ -9,7 +10,7 @@ export default class App extends React.Component{
     return (
       <View style={styles.container}>
           <View>
-             <SignIn/>
+             <SignUp/>
           </View>
       </View>
     );

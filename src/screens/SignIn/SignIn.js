@@ -20,6 +20,9 @@ const SignIn = () =>  {
     const onSignInGoogle = () => {
         console.warn("google sign in");
     }
+    const onSignUpPressed = () => {
+        console.warn("registration clicked");
+    }
     
     return (
         <View style={style.root}>
@@ -51,6 +54,10 @@ const SignIn = () =>  {
             <SignInButton
                 title={"Bejelentkezés Google fiókkal"}
                 onPress={onSignInGoogle}
+            />
+            <SignInButton
+                title={"Regisztrálni szeretnék"}
+                onPress={onSignUpPressed}
             />
         </View>
     );
