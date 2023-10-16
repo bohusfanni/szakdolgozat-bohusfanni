@@ -3,12 +3,15 @@ import { Text, View, Image, StyleSheet, useWindowDimensions, ScrollView } from '
 import Logo from '../../../assets/images/logo.jpg';
 import SignInInput from '../../components/SignInInput';
 import SignInButton from '../../components/SignInButton';
+import { firebase } from '../../config/firebase';
+import { ReactNativeFirebase } from '@react-native-firebase/app';
+
 
 const SignUp = () =>  {
-    const [username, setUsername] = useState('');
+    //const [username, setUsername] = useState('');
     const [email, setEmail]    = useState('')
     const [password, setPassword] = useState('');
-    const [passwordRepeat, setPasswordRepeat] = useState('');
+    //const [passwordRepeat, setPasswordRepeat] = useState('');
 
     const {height} = useWindowDimensions();
 
@@ -16,6 +19,16 @@ const SignUp = () =>  {
         console.warn("registration clicked");
     }
     
+    const handleSignUp = () => {
+        auth
+        .creatUserWithEmailAndPassword(email,password)
+        .then(userCredentials => {
+            const user = userCredentials.user;
+            console.log(user.email);
+        })
+        .catch(error => error.message);
+    }
+
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={style.root}>
@@ -49,7 +62,7 @@ const SignUp = () =>  {
                 />
                 <SignInButton
                     title="Kész"
-                    onPress={onFinishedPressed}
+                    onPress={handleSignUp}
                 />
             </View>
         </ScrollView>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "347585002814",
+    "project_id": "szakdolgozat-bohusfanni",
+    "storage_bucket": "szakdolgozat-bohusfanni.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347585002814:android:6c96f4bbf84a907cbf406f",
+        "android_client_info": {
+          "package_name": "com.szakdolgozat.hallasvizsgalat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "347585002814-egetgp1ljtq8ke10l48uqkvmsfu6lgqq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2VLDWWFD-LrVJHfPiM9e50_9xthWV0IM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "347585002814-egetgp1ljtq8ke10l48uqkvmsfu6lgqq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

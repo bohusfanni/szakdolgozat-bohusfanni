@@ -1,5 +1,6 @@
 import { View, TextInput, StyleSheet} from 'react-native'
 import React from 'react'
+import { ReactNativeFirebase } from '@react-native-firebase/app';
 
 const SignInInput = ({value, setValue, placeholder, secureTextEntry}) => {
   return (

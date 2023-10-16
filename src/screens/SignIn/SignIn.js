@@ -3,14 +3,18 @@ import { Text, View, Image, StyleSheet, useWindowDimensions } from 'react-native
 import Logo from '../../../assets/images/logo.jpg';
 import SignInInput from '../../components/SignInInput';
 import SignInButton from '../../components/SignInButton';
+import { ReactNativeFirebase } from '@react-native-firebase/app';
+import '@react-native-firebase/app';
+import 'firebase/auth';
 
 const SignIn = () =>  {
-    const [username, setUsername] = useState('');
+    //const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const {height} = useWindowDimensions();
 
-    const onSignInPressed = () => {
+    /*const onSignInPressed = () => {
         console.warn("sign in");
     }
 
@@ -22,9 +26,19 @@ const SignIn = () =>  {
     }
     const onSignUpPressed = () => {
         console.warn("registration clicked");
-    }
+    }*/
+
+    const handleSignIn = async (e) => {
+        e.preventDefault();
+        try {
+          await firebase.auth().signInWithEmailAndPassword(email, password);
+          // User is signed in
+        } catch (error) {
+          // Handle errors here
+        }
+      };
     
-    return (
+    /*return (
         <View style={style.root}>
             <Image
                 source={Logo} 
@@ -33,7 +47,7 @@ const SignIn = () =>  {
             />
 
             <SignInInput 
-                placeholder="Felhasználónév" 
+                placeholder="Felhasználónév"
                 value={username} 
                 setValue={setUsername}
             />
@@ -73,6 +87,15 @@ const style = StyleSheet.create({
         maxWidth: 300,
         maxHeight: 200,
     },
-});
+});*/
+
+return(
+    <form onSubmit={handleSignIn}>
+        <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+    </form>
+);
+};
+
 
 export default SignIn;
