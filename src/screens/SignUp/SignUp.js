@@ -3,14 +3,15 @@ import { Text, View, Image, StyleSheet, useWindowDimensions, ScrollView } from '
 import Logo from '../../../assets/images/logo.jpg';
 import SignInInput from '../../components/SignInInput';
 import SignInButton from '../../components/SignInButton';
-import { firebase } from '../../config/firebase';
-import { ReactNativeFirebase } from '@react-native-firebase/app';
+import 'firebase/app';
+//import { auth } from '@react-native-firebase/auth';
 
 
 const SignUp = () =>  {
     //const [username, setUsername] = useState('');
     const [email, setEmail]    = useState('')
     const [password, setPassword] = useState('');
+    const [passwordRepeat, setPasswordRepeat] = useState('');
     //const [passwordRepeat, setPasswordRepeat] = useState('');
 
     const {height} = useWindowDimensions();
@@ -38,11 +39,6 @@ const SignUp = () =>  {
                     resizeMode="contain"
                 />
                 <Text style={style.title}>Regisztráció</Text>
-                <SignInInput 
-                    placeholder="Felhasználónév" 
-                    value={username} 
-                    setValue={setUsername}
-                />
                 <SignInInput 
                     placeholder="Email" 
                     value={email} 

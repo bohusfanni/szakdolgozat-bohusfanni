@@ -3,7 +3,7 @@ import { Text, View, Image, StyleSheet, useWindowDimensions } from 'react-native
 import Logo from '../../../assets/images/logo.jpg';
 import SignInInput from '../../components/SignInInput';
 import SignInButton from '../../components/SignInButton';
-import { ReactNativeFirebase } from '@react-native-firebase/app';
+import { firebase } from '@react-native-firebase/app';
 import '@react-native-firebase/app';
 import 'firebase/auth';
 

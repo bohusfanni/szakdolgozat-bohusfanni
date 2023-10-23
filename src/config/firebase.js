@@ -1,7 +1,8 @@
 // Import the functions you need from the SDKs you need
-import firebase from 'firebase';
-import 'firebase/auth';
-import 'firebase/firestore';
+//import firebase from '@react-native-firebase/app';
+//import  '@react-native-firebase/auth';
+import { initializeApp } from 'firebase/app';
+//import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 // Other Firebase services you may need
 
 //import { initializeApp } from "firebase/app";
@@ -18,4 +19,6 @@ const firebaseConfig = {
   appId: "1:347585002814:web:ee804f22883936e3bf406f"
 };
 
+const app = initializeApp(firebaseConfig);
+//const db = getFirestore(app);
 firebase.initializeApp(firebaseConfig);
