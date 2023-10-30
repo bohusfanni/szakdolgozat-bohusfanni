@@ -13,6 +13,7 @@ const SignUp = () =>  {
     const [password, setPassword] = useState('');
     const [passwordRepeat, setPasswordRepeat] = useState('');
     //const [passwordRepeat, setPasswordRepeat] = useState('');
+    const auth = require('firebase/auth');
 
     const {height} = useWindowDimensions();
 
@@ -22,7 +23,7 @@ const SignUp = () =>  {
     
     const handleSignUp = () => {
         auth
-        .creatUserWithEmailAndPassword(email,password)
+        .createUserWithEmailAndPassword(email,password)
         .then(userCredentials => {
             const user = userCredentials.user;
             console.log(user.email);
@@ -56,6 +57,7 @@ const SignUp = () =>  {
                     setValue={setPasswordRepeat}
                     secureTextEntry
                 />
+
                 <SignInButton
                     title="Kész"
                     onPress={handleSignUp}

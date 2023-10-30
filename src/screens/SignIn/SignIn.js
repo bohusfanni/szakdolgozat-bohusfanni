@@ -3,9 +3,14 @@ import { Text, View, Image, StyleSheet, useWindowDimensions } from 'react-native
 import Logo from '../../../assets/images/logo.jpg';
 import SignInInput from '../../components/SignInInput';
 import SignInButton from '../../components/SignInButton';
-import { firebase } from '@react-native-firebase/app';
+import { firebase } from 'firebase/app';
 import '@react-native-firebase/app';
 import 'firebase/auth';
+import LandingPage from '../LandingPage';
+import SignUp from '../SignUp';
+import NavigationContainer from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 const SignIn = () =>  {
     //const [username, setUsername] = useState('');
@@ -14,9 +19,35 @@ const SignIn = () =>  {
 
     const {height} = useWindowDimensions();
 
-    /*const onSignInPressed = () => {
-        console.warn("sign in");
-    }
+    const navigation = useNavigation();
+
+    const Stack = createStackNavigator();
+
+    export default function App() {
+        return (
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName="SignIn">
+                    <Stack.Screen name="SignIn" component={SignInScreen} />
+                    <Stack.Screen name="LandingPage" component={LandingPageScreen} />
+                </Stack.Navigator>
+            </NavigationContainer>
+  );
+}
+
+    const onSignInPressed = async (e) => {
+        e.preventDefault();
+        try {
+            console.log(email, password)
+            await firebase.auth().signInWithEmailAndPassword(email, password);
+            navigation.navigate(LandingPage);
+        } catch (error) {
+            if(error.code === 'auth/invalid-email') {
+                console.log('That email address is invalid!');
+            } else if (error.code === 'auth/wrong-password') {
+                console.log('Wrong password!');
+            }
+        }
+    };
 
     const onForgotPasswordPressed = () => {
         console.warn("forgot password");
@@ -26,19 +57,9 @@ const SignIn = () =>  {
     }
     const onSignUpPressed = () => {
         console.warn("registration clicked");
-    }*/
-
-    const handleSignIn = async (e) => {
-        e.preventDefault();
-        try {
-          await firebase.auth().signInWithEmailAndPassword(email, password);
-          // User is signed in
-        } catch (error) {
-          // Handle errors here
-        }
-      };
+    }
     
-    /*return (
+    return (
         <View style={style.root}>
             <Image
                 source={Logo} 
@@ -47,15 +68,17 @@ const SignIn = () =>  {
             />
 
             <SignInInput 
-                placeholder="Felhasználónév"
-                value={username} 
-                setValue={setUsername}
+                placeholder="Email cím"
+                value={email} 
+                setValue={setEmail}
+                required
             />
             <SignInInput
                 placeholder="Jelszó" 
                 value={password} 
                 setValue={setPassword}
                 secureTextEntry
+                required
             />
             <SignInButton
                 title="Bejelentkezés"
@@ -87,15 +110,6 @@ const style = StyleSheet.create({
         maxWidth: 300,
         maxHeight: 200,
     },
-});*/
-
-return(
-    <form onSubmit={handleSignIn}>
-        <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
-    </form>
-);
-};
-
+});
 
 export default SignIn;

@@ -1,16 +1,16 @@
 import React, {useEffect} from "react";
-import {getAuth, onAuthStateChanged, Username } from "firebase/auth";
+import {getAuth, onAuthStateChanged, Email } from "firebase/auth";
 
 const auth = getAuth()
 
 export function SignIn() {
-    const [username, setUsername] = React.useState<Username>
+    const [email, setEmail] = React.useState<Email>
 
     useEffect(() => {
-        const unsubscribeFromAuthStateChanged = onAuthStateChanged(auth, (username) => {
-            if(username){
+        const unsubscribeFromAuthStateChanged = onAuthStateChanged(auth, (email) => {
+            if(email){
                 //signed in
-                setUsername(username)
+                setUsername(email)
             }
             else{
                 //signed out
@@ -21,5 +21,5 @@ export function SignIn() {
         return unsubscribeFromAuthStateChanged
     }, [])
 
-    return {username}
+    return {email}
 }
