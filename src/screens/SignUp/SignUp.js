@@ -1,10 +1,15 @@
 import React, {useState} from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { Text, View, Image, StyleSheet, useWindowDimensions, ScrollView } from 'react-native';
 import Logo from '../../../assets/images/logo.jpg';
 import SignInInput from '../../components/SignInInput';
 import SignInButton from '../../components/SignInButton';
-import 'firebase/app';
-//import { auth } from '@react-native-firebase/auth';
+import firebase from 'firebase/app';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import LandingPage from '../LandingPage';
+import SignIn from '../SignIn';
 
 
 const SignUp = () =>  {
@@ -12,23 +17,23 @@ const SignUp = () =>  {
     const [email, setEmail]    = useState('')
     const [password, setPassword] = useState('');
     const [passwordRepeat, setPasswordRepeat] = useState('');
-    //const [passwordRepeat, setPasswordRepeat] = useState('');
-    const auth = require('firebase/auth');
+    const auth = getAuth();
 
     const {height} = useWindowDimensions();
 
-    const onFinishedPressed = () => {
-        console.warn("registration clicked");
-    }
+    const Stack = createStackNavigator();
     
     const handleSignUp = () => {
-        auth
-        .createUserWithEmailAndPassword(email,password)
-        .then(userCredentials => {
-            const user = userCredentials.user;
+        createUserWithEmailAndPassword(email,password)
+        .then((userCredential) => {
+            const user = userCredential.user;
             console.log(user.email);
         })
-        .catch(error => error.message);
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorMessage);
+        });
     }
 
     return (
@@ -63,9 +68,17 @@ const SignUp = () =>  {
                     onPress={handleSignUp}
                 />
             </View>
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName="SignIn">
+                    <Stack.Screen name="SignIn" component={SignIn} />
+                    <Stack.Screen name="LandingPage" component={LandingPage} />
+                </Stack.Navigator>
+            </NavigationContainer>
         </ScrollView>
     );
+    
 };
+
 
 const style = StyleSheet.create({
     root: {

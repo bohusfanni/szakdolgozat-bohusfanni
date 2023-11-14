@@ -3,14 +3,16 @@ import { Text, View, Image, StyleSheet, useWindowDimensions } from 'react-native
 import Logo from '../../../assets/images/logo.jpg';
 import SignInInput from '../../components/SignInInput';
 import SignInButton from '../../components/SignInButton';
-import { firebase } from 'firebase/app';
-import '@react-native-firebase/app';
+import firebase from 'firebase/app';
+//import '@react-native-firebase/app';
 import 'firebase/auth';
 import LandingPage from '../LandingPage';
 import SignUp from '../SignUp';
 import NavigationContainer from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+
+
 
 const SignIn = () =>  {
     //const [username, setUsername] = useState('');
@@ -22,17 +24,6 @@ const SignIn = () =>  {
     const navigation = useNavigation();
 
     const Stack = createStackNavigator();
-
-    export default function App() {
-        return (
-            <NavigationContainer>
-                <Stack.Navigator initialRouteName="SignIn">
-                    <Stack.Screen name="SignIn" component={SignInScreen} />
-                    <Stack.Screen name="LandingPage" component={LandingPageScreen} />
-                </Stack.Navigator>
-            </NavigationContainer>
-  );
-}
 
     const onSignInPressed = async (e) => {
         e.preventDefault();
@@ -56,6 +47,7 @@ const SignIn = () =>  {
         console.warn("google sign in");
     }
     const onSignUpPressed = () => {
+        navigation.navigate(SignUp);
         console.warn("registration clicked");
     }
     
