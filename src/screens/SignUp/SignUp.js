@@ -19,22 +19,24 @@ const SignUp = () =>  {
     const [passwordRepeat, setPasswordRepeat] = useState('');
     const auth = getAuth();
 
+    const navigation = useNavigation();
+
     const {height} = useWindowDimensions();
 
     const Stack = createStackNavigator();
     
-    const handleSignUp = () => {
-        createUserWithEmailAndPassword(email,password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            console.log(user.email);
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorMessage);
-        });
-    }
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+        try {
+            console.log(email, password)
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            console.log(userCredential);
+            navigation.navigate(SignIn);
+        } catch (error) {
+            console.log(error);
+        }
+
+    };
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -68,12 +70,6 @@ const SignUp = () =>  {
                     onPress={handleSignUp}
                 />
             </View>
-            <NavigationContainer>
-                <Stack.Navigator initialRouteName="SignIn">
-                    <Stack.Screen name="SignIn" component={SignIn} />
-                    <Stack.Screen name="LandingPage" component={LandingPage} />
-                </Stack.Navigator>
-            </NavigationContainer>
         </ScrollView>
     );
     

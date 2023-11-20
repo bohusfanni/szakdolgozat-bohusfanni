@@ -11,7 +11,7 @@ const LandingPage = () => {
             <Text style={styles.title}>Welcome!</Text>
             <Text style={styles.subtitle}>You have successfully signed in.</Text>
             <Text style={styles.subtitle}>This is your landing page.</Text>
-            <SignOutButton title="Kijelenkezés"
+            <SignOutButton title="Kijelentkezés"
                            onPress={() => firebase.auth().signOut()}></SignOutButton>
         </View>
     );

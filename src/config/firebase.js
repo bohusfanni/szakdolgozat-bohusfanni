@@ -1,5 +1,5 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase, { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -13,9 +13,7 @@ const firebaseConfig = {
   appId: "1:347585002814:web:ee804f22883936e3bf406f"
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-} else {
-  firebase.app(); // if already initialized, use that one
-}
+// Initialize Firebase
+  export const FIREBASE_APP = initializeApp(firebaseConfig);
+  export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
 //const db = getFirestore(app);

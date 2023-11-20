@@ -3,21 +3,20 @@ import { Text, View, Image, StyleSheet, useWindowDimensions } from 'react-native
 import Logo from '../../../assets/images/logo.jpg';
 import SignInInput from '../../components/SignInInput';
 import SignInButton from '../../components/SignInButton';
+import {getAuth, onAuthStateChanged, signInWithEmailAndPassword} from 'firebase/auth';
 import firebase from 'firebase/app';
-//import '@react-native-firebase/app';
-import 'firebase/auth';
+import { FIREBASE_APP, FIREBASE_AUTH} from '../../config/firebase';
 import LandingPage from '../LandingPage';
 import SignUp from '../SignUp';
 import NavigationContainer from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 
-
-
 const SignIn = () =>  {
     //const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const auth = FIREBASE_AUTH
 
     const {height} = useWindowDimensions();
 
@@ -25,11 +24,14 @@ const SignIn = () =>  {
 
     const Stack = createStackNavigator();
 
+    
+
     const onSignInPressed = async (e) => {
         e.preventDefault();
         try {
             console.log(email, password)
-            await firebase.auth().signInWithEmailAndPassword(email, password);
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            console.log(userCredential);
             navigation.navigate(LandingPage);
         } catch (error) {
             if(error.code === 'auth/invalid-email') {
