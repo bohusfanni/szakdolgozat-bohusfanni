@@ -1,109 +1,63 @@
-import React, {useState} from 'react';
-import { Text, View, Image, StyleSheet, useWindowDimensions } from 'react-native';
-import Logo from '../../../assets/images/logo.jpg';
+import React, { useState } from 'react';
+import { Text, View, StyleSheet } from 'react-native';
 import SignInInput from '../../components/SignInInput';
 import SignInButton from '../../components/SignInButton';
-import {getAuth, onAuthStateChanged, signInWithEmailAndPassword} from 'firebase/auth';
-import firebase from 'firebase/app';
-import { FIREBASE_APP, FIREBASE_AUTH} from '../../config/firebase';
-import LandingPage from '../LandingPage';
-import SignUp from '../SignUp';
-import NavigationContainer from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../config/firebase';
 import { useNavigation } from '@react-navigation/native';
 
-const SignIn = () =>  {
-    //const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const auth = FIREBASE_AUTH
+const SignIn = () => {
+  const nav = useNavigation();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
-    const {height} = useWindowDimensions();
-
-    const navigation = useNavigation();
-
-    const Stack = createStackNavigator();
-
-    
-
-    const onSignInPressed = async (e) => {
-        e.preventDefault();
-        try {
-            console.log(email, password)
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            console.log(userCredential);
-            navigation.navigate(LandingPage);
-        } catch (error) {
-            if(error.code === 'auth/invalid-email') {
-                console.log('That email address is invalid!');
-            } else if (error.code === 'auth/wrong-password') {
-                console.log('Wrong password!');
-            }
-        }
-    };
-
-    const onForgotPasswordPressed = () => {
-        console.warn("forgot password");
+  const onSignIn = async () => {
+    setError('');
+    setSubmitting(true);
+    try {
+      await signInWithEmailAndPassword(auth, email.trim(), password);
+      // ha sikerült, az App szintű listener átdob a LandingPage-re
+    } catch (e) {
+      setError(e.message ?? 'Sikertelen bejelentkezés');
+    } finally {
+      setSubmitting(false);
     }
-    const onSignInGoogle = () => {
-        console.warn("google sign in");
-    }
-    const onSignUpPressed = () => {
-        navigation.navigate(SignUp);
-        console.warn("registration clicked");
-    }
-    
-    return (
-        <View style={style.root}>
-            <Image
-                source={Logo} 
-                style={[style.logo, {height: height * 0.3}]} 
-                resizeMode="contain"
-            />
+  };
 
-            <SignInInput 
-                placeholder="Email cím"
-                value={email} 
-                setValue={setEmail}
-                required
-            />
-            <SignInInput
-                placeholder="Jelszó" 
-                value={password} 
-                setValue={setPassword}
-                secureTextEntry
-                required
-            />
-            <SignInButton
-                title="Bejelentkezés"
-                onPress={onSignInPressed}
-            />
-            <SignInButton
-                title="Elfelejtettem a jelszavam"
-                onPress={onForgotPasswordPressed}
-            />
-            <SignInButton
-                title={"Bejelentkezés Google fiókkal"}
-                onPress={onSignInGoogle}
-            />
-            <SignInButton
-                title={"Regisztrálni szeretnék"}
-                onPress={onSignUpPressed}
-            />
-        </View>
-    );
+  const goToSignUp = () => nav.navigate('SignUp');
+
+  return (
+    <View style={styles.root}>
+      <Text style={styles.title}>Bejelentkezés</Text>
+
+      <SignInInput
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        autoCapitalize="none"
+        keyboardType="email-address"
+      />
+      <SignInInput
+        placeholder="Jelszó"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+
+      {!!error && <Text style={styles.error}>{error}</Text>}
+
+      <SignInButton title={submitting ? 'Bejelentkezés...' : 'Belépés'} onPress={onSignIn} disabled={submitting} />
+      <SignInButton variant="link" title="Nincs fiókod? Regisztráció" onPress={goToSignUp} />
+    </View>
+  );
 };
 
-const style = StyleSheet.create({
-    root: {
-        alignItems: 'center',
-        padding: 50,
-    },
-    logo: {
-        width: "70%",
-        maxWidth: 300,
-        maxHeight: 200,
-    },
+const styles = StyleSheet.create({
+  root: { padding: 24, gap: 12 },
+  title: { fontSize: 22, fontWeight: '700', marginBottom: 8 },
+  error: { color: 'crimson' },
 });
 
 export default SignIn;

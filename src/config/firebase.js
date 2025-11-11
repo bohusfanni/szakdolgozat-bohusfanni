@@ -1,19 +1,23 @@
-import firebase, { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+// src/config/firebase.js
+import { initializeApp } from 'firebase/app';
+import {
+  initializeAuth,
+  getReactNativePersistence,
+} from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBio90n2KuIQaW__yeXvbSH2kMacfXoKW4",
   authDomain: "szakdolgozat-bohusfanni.firebaseapp.com",
   projectId: "szakdolgozat-bohusfanni",
   storageBucket: "szakdolgozat-bohusfanni.appspot.com",
   messagingSenderId: "347585002814",
-  appId: "1:347585002814:web:ee804f22883936e3bf406f"
+  appId: "1:347585002814:web:ee804f22883936e3bf406f",
 };
 
-// Initialize Firebase
-  export const FIREBASE_APP = initializeApp(firebaseConfig);
-  export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
-//const db = getFirestore(app);
+export const app = initializeApp(firebaseConfig);
+
+// IMPORTANT: Expo/React Native környezethez
+export const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});

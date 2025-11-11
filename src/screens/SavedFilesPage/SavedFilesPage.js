@@ -3,24 +3,14 @@ import { View, Text, StyleSheet } from 'react-native';
 import Logo from '../../../assets/images/logo.jpg';
 import 'firebase/app';
 import SignOutButton from '../../components/SignOutButton';
-import SavedFilesPage from '../SavedFilesPage';
-import { useNavigation } from '@react-navigation/native';
+import getSavedFiles from '../../config/firebase';
 
-const LandingPage = () => {
-
-    const navigation = useNavigation();
-    
+const SavedFilesPage = () => {
     return (
         <View style={styles.container}>
             <Logo width={200} height={200} />
-            <Button title="Mentett fájlok"
-                    onPress={navigation.navigate(SavedFilesPage)}></Button>
-            <Text style={styles.title}>Welcome!</Text>
-            <Text style={styles.subtitle}>You have successfully signed in.</Text>
-            <Text style={styles.subtitle}>This is your landing page.</Text>
             <SignOutButton title="Kijelentkezés"
                            onPress={() => firebase.auth().signOut()}></SignOutButton>
-            
         </View>
     );
 };
@@ -43,4 +33,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LandingPage;
+export default SavedFilesPage;

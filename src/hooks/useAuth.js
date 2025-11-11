@@ -1,25 +1,19 @@
-import React, {useEffect} from "react";
-import {getAuth, onAuthStateChanged, Email } from "firebase/auth";
+// src/hooks/useAuth.js
+import { useEffect, useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../config/firebase';
 
-const auth = getAuth()
+export function useAuth() {
+  const [user, setUser] = useState(null);
+  const [initializing, setInitializing] = useState(true);
 
-export function SignIn() {
-    const [email, setEmail] = React.useState<Email>
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (u) => {
+      setUser(u);
+      setInitializing(false);
+    });
+    return unsub;
+  }, []);
 
-    useEffect(() => {
-        const unsubscribeFromAuthStateChanged = onAuthStateChanged(auth, (email) => {
-            if(email){
-                //signed in
-                setUsername(email)
-            }
-            else{
-                //signed out
-                setUsername(undefined)
-            }
-        })
-
-        return unsubscribeFromAuthStateChanged
-    }, [])
-
-    return {email}
+  return { user, initializing };
 }
