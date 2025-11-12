@@ -1,15 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Logo from '../../../assets/images/logo.jpg';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../config/firebase';
 import SignOutButton from '../../components/SignOutButton';
-//import getSavedFiles from '../../config/firebase';
+import getSavedFiles from '../../config/firebase';
 
 const SavedFilesPage = () => {
     return (
         <View style={styles.container}>
-            <Logo width={200} height={200} />
             <SignOutButton onPress={async () => {
     try {
       await signOut(auth);

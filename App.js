@@ -12,6 +12,7 @@ import { auth } from './src/config/firebase';
 import SignIn from './src/screens/SignIn';
 import SignUp from './src/screens/SignUp';
 import LandingPage from './src/screens/LandingPage';
+import SavedFilesPage from './src/screens/SavedFilesPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -39,7 +40,10 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
+          <>
           <Stack.Screen name="LandingPage" component={LandingPage} />
+          <Stack.Screen name="SavedFilesPage" component={SavedFilesPage} />
+          </>
         ) : (
           <>
             <Stack.Screen name="SignIn" component={SignIn} />

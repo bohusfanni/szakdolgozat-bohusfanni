@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
+import Logo from '../../../assets/images/logo.jpg';
 import SignInInput from '../../components/SignInInput';
 import SignInButton from '../../components/SignInButton';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -10,15 +11,22 @@ const SignUp = () => {
   const nav = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
   const onSignUp = async () => {
     setError('');
+
+    if (password !== password2) {
+      setError('A jelszavak nem egyeznek');
+      return;
+    }
+
     setSubmitting(true);
     try {
       await createUserWithEmailAndPassword(auth, email.trim(), password);
-      // siker után az App listener kezel
+      // siker esetén az App listener átvisz LandingPage-re
     } catch (e) {
       setError(e.message ?? 'Sikertelen regisztráció');
     } finally {
@@ -30,23 +38,85 @@ const SignUp = () => {
 
   return (
     <View style={styles.root}>
+      <View style={styles.logoWrapper}>
+        <Image source={Logo} style={styles.logo} />
+      </View>
+
       <Text style={styles.title}>Regisztráció</Text>
 
-      <SignInInput placeholder="Email" value={email} onChangeText={setEmail} autoCapitalize="none" />
-      <SignInInput placeholder="Jelszó (min. 6 karakter)" value={password} onChangeText={setPassword} secureTextEntry />
+      <View style={styles.form}>
+        <SignInInput
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          keyboardType="email-address"
+        />
 
-      {!!error && <Text style={styles.error}>{error}</Text>}
+        <SignInInput
+          placeholder="Jelszó"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
 
-      <SignInButton title={submitting ? 'Regisztráció...' : 'Fiók létrehozása'} onPress={onSignUp} disabled={submitting} />
-      <SignInButton variant="link" title="Van már fiókod? Bejelentkezés" onPress={goToSignIn} />
+        <SignInInput
+          placeholder="Jelszó ismét"
+          value={password2}
+          onChangeText={setPassword2}
+          secureTextEntry
+        />
+
+        {!!error && <Text style={styles.error}>{error}</Text>}
+
+        <SignInButton
+          title={submitting ? 'Regisztrálás...' : 'Regisztráció'}
+          onPress={onSignUp}
+          disabled={submitting}
+        />
+
+        <SignInButton
+          variant="link"
+          title="Már van fiókod? Jelentkezz be"
+          onPress={goToSignIn}
+        />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  root: { padding: 24, gap: 12 },
-  title: { fontSize: 22, fontWeight: '700', marginBottom: 8 },
-  error: { color: 'crimson' },
+  root: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    backgroundColor: '#fff',
+  },
+  logoWrapper: {
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  logo: {
+    width: 200,
+    height: 200,
+    borderRadius: 16,
+    marginBottom: 4,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  form: {
+    width: '100%',
+    gap: 12,
+  },
+  error: {
+    color: 'crimson',
+    marginTop: 4,
+    marginBottom: 4,
+  },
 });
 
 export default SignUp;
