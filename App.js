@@ -1,15 +1,19 @@
+// App.js
+
+import 'react-native-gesture-handler'; // 👈 legyen legfelül
+
 import * as React from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './src/config/firebase';
 
 import SignIn from './src/screens/SignIn';
 import SignUp from './src/screens/SignUp';
 import LandingPage from './src/screens/LandingPage';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [user, setUser] = React.useState(null);
@@ -35,10 +39,8 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
-          // Bejelentkezett „App” stack
           <Stack.Screen name="LandingPage" component={LandingPage} />
         ) : (
-          // Auth stack
           <>
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="SignUp" component={SignUp} />

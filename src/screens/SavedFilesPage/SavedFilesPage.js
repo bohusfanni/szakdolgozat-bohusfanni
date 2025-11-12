@@ -1,16 +1,22 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Logo from '../../../assets/images/logo.jpg';
-import 'firebase/app';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../config/firebase';
 import SignOutButton from '../../components/SignOutButton';
-import getSavedFiles from '../../config/firebase';
+//import getSavedFiles from '../../config/firebase';
 
 const SavedFilesPage = () => {
     return (
         <View style={styles.container}>
             <Logo width={200} height={200} />
-            <SignOutButton title="Kijelentkezés"
-                           onPress={() => firebase.auth().signOut()}></SignOutButton>
+            <SignOutButton onPress={async () => {
+    try {
+      await signOut(auth);
+    } catch (e) {
+      console.warn('Sign-out failed:', e);
+    }
+  }}></SignOutButton>
         </View>
     );
 };

@@ -1,37 +1,39 @@
-import { View, TextInput, StyleSheet} from 'react-native'
-import React from 'react'
-import { ReactNativeFirebase } from '@react-native-firebase/app';
+// src/components/SignInInput/SignInInput.js
+import React from 'react';
+import { View, TextInput, StyleSheet } from 'react-native';
 
-const SignInInput = ({value, setValue, placeholder, secureTextEntry}) => {
+const SignInInput = ({
+  value,
+  onChangeText,
+  placeholder,
+  secureTextEntry = false,
+  keyboardType = 'default',
+  autoCapitalize = 'none',
+}) => {
   return (
     <View style={styles.container}>
-      <TextInput 
+      <TextInput
         value={value}
-        onChangeText={setValue}
+        onChangeText={onChangeText}
         placeholder={placeholder}
-        style={styles.input}
         secureTextEntry={secureTextEntry}
+        keyboardType={keyboardType}
+        autoCapitalize={autoCapitalize}
+        style={styles.input}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    width: '120%',
-
-    borderColor: '#e8e8e8',
-    borderWidth: 1,
-    borderRadius: 5,
-
-    paddingHorizontal : 5,
-    marginVertical: 5,
-  },
+  container: { marginBottom: 12 },
   input: {
-    fontSize: 20
-  }
-
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+  },
 });
 
 export default SignInInput;

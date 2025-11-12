@@ -1,13 +1,14 @@
 import {Button, StyleSheet, View} from 'react-native'
 import React from 'react'
 
-const SignOutButton = ({title, onPress}) => {
+const SignOutButton = ({title ="Kijelentkezés", onPress}) => {
   return (
     <View style={style.container}> 
       <Button 
         style={style.text}
         title={title}
         onPress={onPress}
+        color="#d9534f"
       />
     </View>
   )

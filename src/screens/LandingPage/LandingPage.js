@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Logo from '../../../assets/images/logo.jpg';
-import 'firebase/app';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../config/firebase';
 import SignOutButton from '../../components/SignOutButton';
 import SavedFilesPage from '../SavedFilesPage';
 import { useNavigation } from '@react-navigation/native';
@@ -18,8 +19,13 @@ const LandingPage = () => {
             <Text style={styles.title}>Welcome!</Text>
             <Text style={styles.subtitle}>You have successfully signed in.</Text>
             <Text style={styles.subtitle}>This is your landing page.</Text>
-            <SignOutButton title="Kijelentkezés"
-                           onPress={() => firebase.auth().signOut()}></SignOutButton>
+            <SignOutButton onPress={async () => {
+    try {
+      await signOut(auth);
+    } catch (e) {
+      console.warn('Sign-out failed:', e);
+    }
+  }}></SignOutButton>
             
         </View>
     );
