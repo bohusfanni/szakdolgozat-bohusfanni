@@ -18,9 +18,12 @@ const SignOutButton = ({title ="Kijelentkezés", onPress}) => {
 const style = StyleSheet.create({
     container: {
         marginVertical: 10,
-        borderRadius: 5
+        borderRadius: 5,
+        borderRadius:  10,
+        borderWidth: 1,
+        borderColor: "#ddd",
     },
-    text: {}
+    text: {fontWeight: "700",}
 })
 
 export default SignOutButton;
