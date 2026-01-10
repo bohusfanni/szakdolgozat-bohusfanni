@@ -26,7 +26,6 @@ const SignUp = () => {
     setSubmitting(true);
     try {
       await createUserWithEmailAndPassword(auth, email.trim(), password);
-      // siker esetén az App listener átvisz LandingPage-re
     } catch (e) {
       setError(e.message ?? 'Sikertelen regisztráció');
     } finally {

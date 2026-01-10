@@ -1,4 +1,3 @@
-// src/config/firebase.js
 import { initializeApp } from 'firebase/app';
 import {
   initializeAuth,
@@ -18,7 +17,6 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 
-// IMPORTANT: Expo/React Native környezethez
 export const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage),
 });

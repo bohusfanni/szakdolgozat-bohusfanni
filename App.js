@@ -1,6 +1,4 @@
-// App.js
-
-import 'react-native-gesture-handler'; // 👈 legyen legfelül
+import 'react-native-gesture-handler'; 
 
 import * as React from 'react';
 import { View, ActivityIndicator } from 'react-native';
@@ -14,6 +12,9 @@ import SignUp from './src/screens/SignUp';
 import LandingPage from './src/screens/LandingPage';
 import SavedFilesPage from './src/screens/SavedFilesPage';
 import MeasurementDetailScreen from './src/screens/MeasurementDetail';
+import NewMeasurementScreen from './src/screens/NewMeasurement/NewMeasurementScreen';
+import TestInProgressScreen from './src/screens/TestInProgress/TestInProgressScreen';
+import TestResultScreen from './src/screens/TestResult';
 
 const Stack = createNativeStackNavigator();
 
@@ -45,6 +46,9 @@ export default function App() {
           <Stack.Screen name="LandingPage" component={LandingPage} />
           <Stack.Screen name="SavedFilesPage" component={SavedFilesPage} />
           <Stack.Screen name="MeasurementDetail" component={MeasurementDetailScreen} options={{ title: "Mérés részletei" }}/>
+          <Stack.Screen name="NewMeasurement" component={NewMeasurementScreen} options={{headerShown: false}}/>
+          <Stack.Screen name='TestInProgress' component={TestInProgressScreen} options={{headerShown: false}}/>
+          <Stack.Screen name='TestResult' component={TestResultScreen} options={{headerShown: false}}/>
           </>
         ) : (
           <>

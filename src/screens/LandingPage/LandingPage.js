@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, Image } from 'react-native';
+import { View, Text, StyleSheet, Button, Image, Pressable } from 'react-native';
 import Logo from '../../../assets/images/logo.jpg';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../config/firebase';
@@ -24,6 +24,13 @@ const LandingPage = () => {
   return (
     <View style={styles.container}>
       <Image source={Logo} style={{ width: 200, height: 200, marginBottom: 24 }} />
+
+    <Pressable
+      onPress={() => navigation.navigate("NewMeasurement")}
+      style={styles.actionBtn}
+    >
+      <Text style={styles.actionBtnText}>Új mérés</Text>
+    </Pressable>
 
       <Button title="Mentett fájlok" onPress={goToSavedFiles} />
 

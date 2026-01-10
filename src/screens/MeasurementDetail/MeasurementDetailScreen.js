@@ -4,6 +4,8 @@ import { doc, onSnapshot, deleteDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { exportMeasurementCsv } from "../../utils/exportMeasurementCsv"; 
 import { SafeAreaView } from "react-native-safe-area-context";
+import AudiogramChart from "../../components/AudiogramChart";
+import { ScrollView } from "react-native";
 
 
 const formatDate = (ms) => {
@@ -97,62 +99,71 @@ export default function MeasurementDetailScreen({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Mérés részletei</Text>
-      <Pressable
-        onPress={() => navigation.goBack()}
-        style={({ pressed }) => [styles.backBtn, pressed && { opacity: 0.7 }]}
-        >
-        <Text style={styles.backBtnText}>Vissza</Text>
-      </Pressable>
-      <View style={styles.metaCard}>
-        <Text style={styles.metaLine}>Dátum: {formatDate(measurement.createdAt)}</Text>
-        <Text style={styles.metaLine}>Fül: {measurement.ear ?? "-"}</Text>
-        {measurement.note ? <Text style={styles.metaLine}>Megjegyzés: {measurement.note}</Text> : null}
-        <Text style={styles.metaLine}>Pontok: {points.length ? `${points.length} db` : "-"}</Text>
-      </View>
-
-      <Text style={styles.sectionTitle}>Eredmények</Text>
-
-      {points.length === 0 ? (
-        <Text style={styles.muted}>Nincs elmentett pont ebben a mérésben.</Text>
-      ) : (
-        <View style={styles.table}>
-          <View style={styles.tableHeader}>
-            <Text style={[styles.th, { flex: 1 }]}>Frekvencia (Hz)</Text>
-            <Text style={[styles.th, { flex: 1 }]}>Küszöb (dBHL)</Text>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <Text style={styles.title}>Mérés részletei</Text>
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={({ pressed }) => [styles.backBtn, pressed && { opacity: 0.7 }]}
+          >
+          <Text style={styles.backBtnText}>Vissza</Text>
+        </Pressable>
+        <View style={styles.metaCard}>
+          <Text style={styles.metaLine}>Dátum: {formatDate(measurement.createdAt)}</Text>
+          <Text style={styles.metaLine}>Fül: {measurement.ear ?? "-"}</Text>
+          {measurement.note ? <Text style={styles.metaLine}>Megjegyzés: {measurement.note}</Text> : null}
+          <Text style={styles.sectionTitle}>Audiogram</Text>
+          <View style={styles.chartCard}>
+              <AudiogramChart points={points} height={200} />
           </View>
 
-          {points.map((p, idx) => (
-            <View key={`${p.freqHz}-${idx}`} style={styles.tableRow}>
-              <Text style={[styles.td, { flex: 1 }]}>{p.freqHz}</Text>
-              <Text style={[styles.td, { flex: 1 }]}>{p.thresholdDbHL}</Text>
-            </View>
-          ))}
+          <Text style={styles.sectionTitle}>Eredmények</Text>
+
+          <Text style={styles.metaLine}>Pontok: {points.length ? `${points.length} db` : "-"}</Text>
         </View>
-      )}
 
-      <View style={styles.actionsRow}>
-        <Pressable
-          style={({ pressed }) => [styles.btn, pressed && { opacity: 0.7 }]}
-          onPress={async () => {
-            try {
-              await exportMeasurementCsv(measurement);
-            } catch (e) {
-              console.warn("CSV export failed:", e);
-              Alert.alert("Hiba", "Nem sikerült exportálni a CSV-t.");
-            }
-          }}
-        >
-          <Text style={styles.btnText}>Export CSV</Text>
-        </Pressable>
+        <Text style={styles.sectionTitle}>Eredmények</Text>
 
-        <Pressable
-          style={({ pressed }) => [styles.btnDanger, pressed && { opacity: 0.7 }]}
-          onPress={confirmDelete}
-        >
-          <Text style={styles.btnDangerText}>Törlés</Text>
-        </Pressable>
-      </View>
+        {points.length === 0 ? (
+          <Text style={styles.muted}>Nincs elmentett pont ebben a mérésben.</Text>
+        ) : (
+          <View style={styles.table}>
+            <View style={styles.tableHeader}>
+              <Text style={[styles.th, { flex: 1 }]}>Frekvencia (Hz)</Text>
+              <Text style={[styles.th, { flex: 1 }]}>Küszöb (dBHL)</Text>
+            </View>
+
+            {points.map((p, idx) => (
+              <View key={`${p.freqHz}-${idx}`} style={styles.tableRow}>
+                <Text style={[styles.td, { flex: 1 }]}>{p.freqHz}</Text>
+                <Text style={[styles.td, { flex: 1 }]}>{p.thresholdDbHL}</Text>
+              </View>
+            ))}
+          </View>
+        )}
+
+        <View style={styles.actionsRow}>
+          <Pressable
+            style={({ pressed }) => [styles.btn, pressed && { opacity: 0.7 }]}
+            onPress={async () => {
+              try {
+                await exportMeasurementCsv(measurement);
+              } catch (e) {
+                console.warn("CSV export failed:", e);
+                Alert.alert("Hiba", "Nem sikerült exportálni a CSV-t.");
+              }
+            }}
+          >
+            <Text style={styles.btnText}>Export CSV</Text>
+          </Pressable>
+
+          <Pressable
+            style={({ pressed }) => [styles.btnDanger, pressed && { opacity: 0.7 }]}
+            onPress={confirmDelete}
+          >
+            <Text style={styles.btnDangerText}>Törlés</Text>
+          </Pressable>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -181,4 +192,5 @@ const styles = StyleSheet.create({
   btnDangerText: { fontWeight: "700", color: "#cc0000" },
   backBtn: {alignSelf: "flex-start", paddingVertical: 8, paddingHorizontal: 10, borderRadius: 10, borderWidth: 1, borderColor: "#ddd", marginBottom: 10 },
   backBtnText: {fontWeight: "700" },
+  chartCard: {borderWidth: 1, borderColor: "#ddd", borderRadius: 12, padding: 12, marginTop: 6,},
 });

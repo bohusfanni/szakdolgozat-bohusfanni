@@ -19,7 +19,6 @@ const SignIn = () => {
     setSubmitting(true);
     try {
       await signInWithEmailAndPassword(auth, email.trim(), password);
-      // ha sikerült, az App szintű listener átdob a LandingPage-re
     } catch (e) {
       setError(e.message ?? 'Sikertelen bejelentkezés');
     } finally {
