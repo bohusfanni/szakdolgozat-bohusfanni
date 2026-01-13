@@ -64,10 +64,9 @@ export default function AudiogramChart({
     >
       {width > 0 ? (
         <Svg width={width} height={height}>
-          {/* háttér */}
+
           <Rect x="0" y="0" width={width} height={height} fill="#fff" />
 
-          {/* keret */}
           <Rect
             x={left}
             y={top}

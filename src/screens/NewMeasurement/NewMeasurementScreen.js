@@ -1,13 +1,16 @@
 import React, { useMemo, useState } from "react";
 import { View, Text, StyleSheet, Pressable, Alert, TextInput } from "react-native";
-import { addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../../config/firebase";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const FREQS = [125, 250, 500, 1000, 2000, 4000, 8000];
 
 function generateDummyThresholds() {
-  const base = 10 + Math.floor(Math.random() * 6); 
+  const base = 10 + Math.floor(Math.random() * 6);
+  return FREQS.map((_, i) => base + i * 2 + Math.floor(Math.random() * 5));
+}
+
+export default function NewMeasurementScreen({ navigation }) {
   const [ear, setEar] = useState("L"); 
   const [note, setNote] = useState("");
   const [saving, setSaving] = useState(false);
@@ -20,36 +23,6 @@ function generateDummyThresholds() {
     return "Mindkettő";
   }, [ear]);
 
-  const saveDummyMeasurement = async () => {
-    if (!user) {
-      Alert.alert("Hiba", "Bejelentkezés szükséges.");
-      return;
-    }
-
-    setSaving(true);
-    try {
-      const thresholdsDbHL = generateDummyThresholds();
-
-      await addDoc(collection(db, "measurements"), {
-        userId: user.uid,
-        createdAt: Date.now(),
-        ear,
-        freqsHz: FREQS,
-        thresholdsDbHL,
-        note: note.trim() || "",
-        method: "dummy",
-      });
-
-      Alert.alert("Siker", "Mérés elmentve.");
-      navigation.goBack(); 
-    } catch (e) {
-      console.warn("Save measurement failed:", e);
-      Alert.alert("Hiba", "Nem sikerült elmenteni a mérést.");
-    } finally {
-      setSaving(false);
-    }
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -57,7 +30,7 @@ function generateDummyThresholds() {
           onPress={() => navigation.goBack()}
           style={({ pressed }) => [styles.actionBtn, pressed && { opacity: 0.7 }]}
         >
-          <Text style={styles.actionBtnText}>← Vissza</Text>
+          <Text style={styles.actionBtnText}>Vissza</Text>
         </Pressable>
 
         <Text style={styles.headerTitle}>Új mérés</Text>
@@ -99,7 +72,7 @@ function generateDummyThresholds() {
       </Pressable>
 
       <Text style={styles.hint}>
-        Ez most még csak dummy adat. Később itt indul majd az audiometria (hangok, random szünet, adaptív hangerő).
+        (A mentés most a TestResult képernyőn történik. Itt csak indítjuk a tesztet.)
       </Text>
     </SafeAreaView>
   );

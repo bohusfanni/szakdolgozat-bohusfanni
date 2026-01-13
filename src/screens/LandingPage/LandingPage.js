@@ -25,18 +25,19 @@ const LandingPage = () => {
     <View style={styles.container}>
       <Image source={Logo} style={{ width: 200, height: 200, marginBottom: 24 }} />
 
-    <Pressable
-      onPress={() => navigation.navigate("NewMeasurement")}
-      style={styles.actionBtn}
-    >
-      <Text style={styles.actionBtnText}>Új mérés</Text>
-    </Pressable>
+      <Pressable
+        onPress={() => navigation.navigate("NewMeasurement")}
+        style={styles.actionBtn}
+      >
+        <Text style={styles.actionBtnText}>Új mérés</Text>
+      </Pressable>
 
       <Button title="Mentett fájlok" onPress={goToSavedFiles} />
 
-      <Text style={styles.title}>Welcome!</Text>
-      <Text style={styles.subtitle}>You have successfully signed in.</Text>
-      <Text style={styles.subtitle}>This is your landing page.</Text>
+      <Pressable onPress={() => navigation.navigate("Calibration")}>
+        <Text>Kalibráció</Text>
+      </Pressable>
+
 
       <SignOutButton title="Kijelentkezés" onPress={handleSignOut} />
     </View>

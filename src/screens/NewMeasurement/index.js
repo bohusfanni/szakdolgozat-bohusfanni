@@ -1,1 +1,1 @@
-import {default} from "./NewMeasurementScreen";
+export {default} from "./NewMeasurementScreen";

@@ -85,7 +85,7 @@ const SavedFilesPage = () => {
               pressed && { opacity: 0.7 },
               ]}
             >
-              <Text style={styles.actionBtnText}>← Vissza</Text>
+              <Text style={styles.actionBtnText}>Vissza</Text>
             </Pressable>
         ) : (
           <View />   

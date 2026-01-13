@@ -53,7 +53,7 @@ export default function TestResultScreen({ route, navigation }) {
           onPress={() => navigation.goBack()}
           style={({ pressed }) => [styles.actionBtn, pressed && { opacity: 0.7 }]}
         >
-          <Text style={styles.actionBtnText}>← Vissza</Text>
+          <Text style={styles.actionBtnText}>Vissza</Text>
         </Pressable>
 
         <Text style={styles.headerTitle}>Eredmény</Text>

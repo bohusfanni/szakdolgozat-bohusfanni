@@ -15,6 +15,8 @@ import MeasurementDetailScreen from './src/screens/MeasurementDetail';
 import NewMeasurementScreen from './src/screens/NewMeasurement/NewMeasurementScreen';
 import TestInProgressScreen from './src/screens/TestInProgress/TestInProgressScreen';
 import TestResultScreen from './src/screens/TestResult';
+import CalibrationScreen from './src/screens/Calibration';
+import { StackScreen } from 'react-native-screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -49,6 +51,7 @@ export default function App() {
           <Stack.Screen name="NewMeasurement" component={NewMeasurementScreen} options={{headerShown: false}}/>
           <Stack.Screen name='TestInProgress' component={TestInProgressScreen} options={{headerShown: false}}/>
           <Stack.Screen name='TestResult' component={TestResultScreen} options={{headerShown: false}}/>
+          <Stack.Screen name='Calibration' component={CalibrationScreen} options={{headerShown: false}}/>
           </>
         ) : (
           <>
